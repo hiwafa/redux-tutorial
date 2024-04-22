@@ -5,20 +5,20 @@ import { createStore } from "redux";
 import { Provider, connect } from 'react-redux';
 
 const initialState = {
-  counter: 1
+  counter: 2
 }
 
 const myReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD": return {
+      ...state,
       counter: state.counter+action.payload,
-      ...state
     }
     break;
 
     case "SUB": return {
-      counter: state.counter-action.payload,
-      ...state
+      ...state,
+      counter: state.counter-action.payload
     }
     default: return state;
   }
@@ -61,7 +61,22 @@ const mapDispatchToProps = (dispatch)=> {
 
 const MyCounter = (props)=> {
 
-  return <div>{props.counter}</div>
+  
+  const handleAddClick = ()=> {
+   props.add(); 
+  }
+
+  const handleSubClick = ()=> {
+    props.sub(); 
+  }
+  return (
+    <div>
+      {props.counter}
+
+      <button onClick={handleAddClick}>Add</button>
+      <button onClick={handleSubClick}>Sub</button>
+    </div>
+  )
 }
 
 const MyCounterWithData = connect(mapStateToProps, mapDispatchToProps)(MyCounter);
