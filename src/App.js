@@ -2,7 +2,10 @@ import logo from './logo.svg';
 import './App.css';
 
 import { createStore } from "redux";
-import { Provider, connect } from 'react-redux';
+import { Provider, connect, useSelector, useDispatch } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import toolkitReducer, { increment, decrement } from './CounterSlice';
+
 
 const initialState = {
   counter: 2
@@ -25,13 +28,20 @@ const myReducer = (state = initialState, action) => {
 
 }
 
-const store = createStore(myReducer);
+// const store = createStore(myReducer);
+const store = configureStore({
+  reducer: {
+    counter1: myReducer,
+    counter2: toolkitReducer
+  }
+})
 
 function App() {
   return (
     <div className="App">
      <Provider store={store}>
       <MyCounterWithData />
+      <NewCounter />
      </Provider>
     </div>
   );
@@ -40,8 +50,10 @@ function App() {
 
 
 const mapStateToProps = (state)=> {
+  console.log("s: ", state);
   return {
-    ...state
+    ...state,
+    counter: state.counter1.counter
   }
 }
 
@@ -58,6 +70,21 @@ const mapDispatchToProps = (dispatch)=> {
   }
 }
 
+
+const NewCounter = ()=> {
+  const mycount = useSelector(state => {
+    console.log("cnt: ", state);
+    return state.counter2.counter;
+  })
+  const dispatch = useDispatch();
+  return (
+    <div>
+      {mycount}
+      <button onClick={()=> dispatch(increment())}>Increment</button>
+      <button onClick={()=> dispatch(decrement())}>Decrement</button>
+    </div>
+  )
+}
 
 const MyCounter = (props)=> {
 
