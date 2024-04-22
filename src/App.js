@@ -28,7 +28,18 @@ const myReducer = (state = initialState, action) => {
 
 }
 
-// const store = createStore(myReducer);
+// const store = createStore(myReducer); // use configureStore({}) instead of createStore();
+// configureStore({}) supports multiple reducers
+// four important things come from "react-redux" -> ( Provider, connect, useSelector, useDispatch)
+// two important things come from "@reduxjs/toolkit" -> (createSlice, configureStore)
+// We export two important things from our slices (actions, reducer); like:
+// export const {increment, decrement} = counterSlice.actions;
+// export default counterSlice.reducer;
+// createSlice has three important properties: (name: "", initialState: {}, reducer: {})
+// in reducer withing createSlice we define our actions -> (increment, decrement) = actions
+// that's it
+
+
 const store = configureStore({
   reducer: {
     counter1: myReducer,
