@@ -15,18 +15,66 @@ const myReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD": return {
       ...state,
-      counter: state.counter+action.payload,
+      counter: state.counter + action.payload,
     }
-    break;
+      break;
 
     case "SUB": return {
       ...state,
-      counter: state.counter-action.payload
+      counter: state.counter - action.payload
     }
     default: return state;
   }
 
 }
+
+const secondInitialState = {
+  cnt: 0
+}
+const secondReducer = (state = secondInitialState, action) => {
+  switch (action.type) {
+    case "increase": return {
+      ...state, cnt: state.cnt + action.payload
+    }
+      break;
+    case "increase": return {
+      ...state, cnt: state.cnt - action.payload
+    }
+      break;
+    default: return state;
+  }
+}
+
+const SecondComponent = props => {
+
+  const secondStateCounter = useSelector(state => state.counter3.cnt)
+  const dispatch = useDispatch();
+
+  const handleIncreasing = ()=> {
+    dispatch({
+      type: "increase",
+      payload: 1
+    })
+  }
+
+  const handleDecreasing = ()=> {
+    dispatch({
+      type: increase,
+      payload: -1
+    });
+  }
+
+  return (
+    <div>
+      <br />
+      <br />
+      {secondStateCounter}
+      <button onClick={handleIncreasing}>Increase</button>
+      <button onClick={handleDecreasing}>Decrease</button>
+    </div>
+  )
+}
+
 
 // const store = createStore(myReducer); // use configureStore({}) instead of createStore();
 // configureStore({}) supports multiple reducers
@@ -43,24 +91,26 @@ const myReducer = (state = initialState, action) => {
 const store = configureStore({
   reducer: {
     counter1: myReducer,
-    counter2: toolkitReducer
+    counter2: toolkitReducer,
+    counter3: secondReducer
   }
 })
 
 function App() {
   return (
     <div className="App">
-     <Provider store={store}>
-      <MyCounterWithData />
-      <NewCounter />
-     </Provider>
+      <Provider store={store}>
+        <MyCounterWithData />
+        <NewCounter />
+        <SecondComponent />
+      </Provider>
     </div>
   );
 }
 
 
 
-const mapStateToProps = (state)=> {
+const mapStateToProps = (state) => {
   console.log("s: ", state);
   return {
     ...state,
@@ -68,13 +118,13 @@ const mapStateToProps = (state)=> {
   }
 }
 
-const mapDispatchToProps = (dispatch)=> {
+const mapDispatchToProps = (dispatch) => {
   return {
-    add: ()=> dispatch({
+    add: () => dispatch({
       type: "ADD",
       payload: 1
     }),
-    sub: ()=> dispatch({
+    sub: () => dispatch({
       type: "SUB",
       payload: 1
     })
@@ -82,7 +132,7 @@ const mapDispatchToProps = (dispatch)=> {
 }
 
 
-const NewCounter = ()=> {
+const NewCounter = () => {
   const mycount = useSelector(state => {
     console.log("cnt: ", state);
     return state.counter2.counter;
@@ -91,21 +141,21 @@ const NewCounter = ()=> {
   return (
     <div>
       {mycount}
-      <button onClick={()=> dispatch(increment())}>Increment</button>
-      <button onClick={()=> dispatch(decrement())}>Decrement</button>
+      <button onClick={() => dispatch(increment())}>Increment</button>
+      <button onClick={() => dispatch(decrement())}>Decrement</button>
     </div>
   )
 }
 
-const MyCounter = (props)=> {
+const MyCounter = (props) => {
 
-  
-  const handleAddClick = ()=> {
-   props.add(); 
+
+  const handleAddClick = () => {
+    props.add();
   }
 
-  const handleSubClick = ()=> {
-    props.sub(); 
+  const handleSubClick = () => {
+    props.sub();
   }
   return (
     <div>
