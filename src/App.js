@@ -35,11 +35,9 @@ const secondReducer = (state = secondInitialState, action) => {
     case "increase": return {
       ...state, cnt: state.cnt + action.payload
     }
-      break;
     case "decrease": return {
       ...state, cnt: state.cnt - action.payload
     }
-      break;
     default: return state;
   }
 }
