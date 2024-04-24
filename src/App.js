@@ -37,7 +37,7 @@ const secondReducer = (state = secondInitialState, action) => {
       ...state, cnt: state.cnt + action.payload
     }
       break;
-    case "increase": return {
+    case "decrease": return {
       ...state, cnt: state.cnt - action.payload
     }
       break;
@@ -59,7 +59,7 @@ const SecondComponent = props => {
 
   const handleDecreasing = ()=> {
     dispatch({
-      type: increase,
+      type: "decrease",
       payload: -1
     });
   }
