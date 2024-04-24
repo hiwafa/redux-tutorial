@@ -1,7 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
 
-import { createStore } from "redux";
 import { Provider, connect, useSelector, useDispatch } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import toolkitReducer, { increment, decrement } from './CounterSlice';
